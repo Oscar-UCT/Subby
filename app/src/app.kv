@@ -1,0 +1,109 @@
+MDBoxLayout:
+    orientation: "vertical"
+    md_bg_color: self.theme_cls.backgroundColor
+
+    MDTopAppBar:
+        type: "small"
+        pos_hint: {"center_x": .5, "center_y": .5}
+
+        MDTopAppBarTitle:
+            text: root.ids.screen_manager.current
+
+        MDTopAppBarTrailingButtonContainer:
+
+            MDActionTopAppBarButton:
+                id: topbar_button
+                icon: "plus"
+                on_press: app.nueva_suscripcion()
+
+    MDScreenManager:
+        id: screen_manager
+
+        Screen:
+            name: "Suscripciones"
+            bold: True
+
+            MDScrollView:
+                do_scroll_x: False
+
+                MDBoxLayout:
+                    id: subscriptions_container
+                    orientation: "vertical"
+                    adaptive_height: True
+                    spacing: "24dp"
+                    padding: "24dp"
+            
+        Screen:
+            name: "Analíticas"
+            MDScrollView:
+                do_scroll_x: False
+
+                MDBoxLayout:
+                    padding: "24dp"
+                    spacing: "24dp"
+                    adaptive_height: True
+                    
+                    MDCard:
+                        style: "elevated"
+                        size_hint: 1, None
+                        MDBoxLayout:
+                            orientation: "vertical"
+                            MDLabel:
+                                text: "Gasto mensual"
+                                halign: "center"
+                                bold: True
+                            MDLabel:
+                                text: "$39.915"
+                                halign: "center"
+
+                    MDCard:
+                        style: "elevated"
+                        size_hint: 1, None
+                        MDBoxLayout:
+                            orientation: "vertical"
+                            adaptive_height: True
+                            
+                            MDLabel:
+                                text: "Últimos 6 meses"
+                                halign: "center"
+                                bold: True
+                            MDLabel:
+                                text: "$239.490"
+                                halign: "center"
+
+
+        Screen:
+            name: "Ajustes"
+
+
+    MDNavigationBar:
+
+        on_switch_tabs: app.on_switch_tabs(*args)
+        use_standard_transition: False
+
+        MDNavigationItem:
+            active: True
+
+            MDNavigationItemIcon:
+                icon: "credit-card"
+
+            MDNavigationItemLabel:
+                text: "Suscripciones"
+
+        MDNavigationItem:
+
+            MDNavigationItemIcon:
+                icon: "chart-box-outline"
+
+            MDNavigationItemLabel:
+                text: "Analíticas"
+
+        MDNavigationItem:
+
+            MDNavigationItemIcon:
+                icon: "cog"
+
+            MDNavigationItemLabel:
+                text: "Ajustes"
+
+                
