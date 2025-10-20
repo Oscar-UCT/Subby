@@ -90,14 +90,15 @@ class App(MDApp):
         return Builder.load_file("app.kv")
     
     def on_start(self):
-        database.create_plan("Mensual", "30")
         database.check_db()
+        database.create_plan("Mensual", "30")
         load_subscriptions(self)
 
     def nueva_suscripcion(self):
         if not self.dialog:
             self.nombre_dialog = MDTextField(
                 MDTextFieldLeadingIcon(
+                    
                     icon="credit-card-outline",
                 ),
                 MDTextFieldHintText(text="Servicio"),
