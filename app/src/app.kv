@@ -166,9 +166,65 @@ MDBoxLayout:
 
 
 
-
         Screen:
             name: "Ajustes"
+            MDScrollView:
+                do_scroll_x: False
+                MDBoxLayout:
+                    orientation: "vertical"
+                    padding: "20dp"
+                    spacing: "12dp"
+                    adaptive_height: True
+
+
+                    MDBoxLayout:
+                        orientation: "horizontal"
+                        adaptive_height: True
+                        spacing: "12dp"
+                        MDLabel:
+                            text: "Recordatorios automáticos"
+                            halign: "left"
+
+                        MDSwitch:
+                            id: toggle_recordatorios
+
+                    MDBoxLayout:
+                        orientation: "horizontal"
+                        adaptive_height: True
+                        spacing: "12dp"
+                        MDLabel:
+                            text: "Recolleción de datos"
+                            halign: "left"
+
+                        MDSwitch:
+                            id: toggle_datos
+
+                    MDBoxLayout:
+                        orientation: "horizontal"
+                        adaptive_height: True
+                        spacing: "12dp"
+                        MDLabel:
+                            text: "Tema (oscuro/claro)"
+                            halign: "left"
+
+                        MDSwitch:
+                            id: toggle_tema
+
+                    MDBoxLayout:
+                        orientation: "horizontal"
+                        adaptive_height: True
+                        spacing: "12dp"
+                        MDLabel:
+                            text: "¿Necesitas ayuda?"
+                            halign: "left"
+
+                        MDButton:
+                            MDButtonText:
+                                text: "Abrir link"
+                                text_color: 0.4,0.4,0.4,1
+                            
+
+
 
 
     MDNavigationBar:
