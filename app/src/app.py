@@ -1,5 +1,9 @@
 import database
-import sqlite3
+import logging
+logging.basicConfig(filename='session_metrics.log', level=logging.INFO)
+import time
+import datetime
+
 from pathlib import Path
 
 from kivy.uix.widget import Widget
@@ -125,9 +129,19 @@ class App(MDApp):
     
     def on_start(self):
         database.check_db()
+
+        # Métricas
+        self.start_time = time.time()
+        logging.info("Aplicación iniciada")
+
+        # Carga de datos
         load_expenses(self)
         load_next_subscription(self)
         load_subscriptions(self)
+
+    def on_stop(self):
+        elapsed = time.time() - self.start_time
+        logging.info(f"Aplicación cerrada. Tiempo activo: {elapsed:.2f} segundos")
 
     def nueva_suscripcion(self):
         if not self.dialog:
@@ -216,6 +230,7 @@ class App(MDApp):
         database.create_subscription(nombre, database.get_plan_id_from_string(plan), fecha_pago, precio, medio_pago="Extra")
 
         self.dialog.dismiss()
+        logging.info(f"Nueva suscripción guardada: {nombre} el {datetime.datetime.now()}")
         load_subscriptions(self)
         load_expenses(self)
         load_next_subscription(self)
