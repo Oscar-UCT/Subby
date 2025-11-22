@@ -35,41 +35,136 @@ MDBoxLayout:
             
         Screen:
             name: "Analíticas"
+
             MDScrollView:
                 do_scroll_x: False
 
                 MDBoxLayout:
+                    orientation: "vertical"
                     padding: "24dp"
                     spacing: "24dp"
                     adaptive_height: True
-                    
-                    MDCard:
-                        style: "elevated"
-                        size_hint: 1, None
-                        MDBoxLayout:
-                            orientation: "vertical"
-                            MDLabel:
-                                text: "Gasto mensual"
-                                halign: "center"
-                                bold: True
-                            MDLabel:
-                                text: "$39.915"
-                                halign: "center"
 
+                    # --- Row 1: two cards ---
+                    MDBoxLayout:
+                        spacing: "24dp"
+                        adaptive_height: True
+
+                        MDCard:
+                            style: "elevated"
+                            size_hint: 1, None
+                            MDBoxLayout:
+                                orientation: "vertical"
+                                MDLabel:
+                                    text: "Gasto Total"
+                                    halign: "center"
+                                    bold: True
+                                MDLabel:
+                                    id: gasto_label
+                                    text: "$0"
+                                    halign: "center"
+
+                        MDCard:
+                            style: "elevated"
+                            size_hint: 1, None
+                            MDBoxLayout:
+                                orientation: "vertical"
+                                adaptive_height: True
+                                MDLabel:
+                                    text: "Últimos 6 meses"
+                                    halign: "center"
+                                    bold: True
+                                MDLabel:
+                                    text: "$0"
+                                    halign: "center"
+
+                    # --- Row 2: full-width card ---
                     MDCard:
                         style: "elevated"
                         size_hint: 1, None
                         MDBoxLayout:
                             orientation: "vertical"
                             adaptive_height: True
-                            
                             MDLabel:
-                                text: "Últimos 6 meses"
+                                text: "Gasto mensual"
                                 halign: "center"
                                 bold: True
                             MDLabel:
-                                text: "$239.490"
+                                id: gasto_mensual_label
+                                text: "$0"
                                 halign: "center"
+
+                    # --- Section: Next Payment ---
+                    MDBoxLayout:
+                        orientation: "vertical"
+                        spacing: "20dp"
+                        adaptive_height: True
+
+                        MDLabel:
+                            text: "Próximo pago"
+                            halign: "left"
+                            bold: True
+                            padding: "4dp", "0dp"
+
+                        MDCard:
+                            id: next_payment_card
+                            style: "elevated"
+                            size_hint: 1, None
+                            height: "80dp"
+                            radius: [20]
+                            padding: "12dp"
+
+                            MDBoxLayout:
+                                orientation: "horizontal"
+                                spacing: "12dp"
+
+                                FitImage:
+                                    id: next_img
+                                    source: "product_imgs/Netflix.png"
+                                    size_hint: None, None
+                                    size: "56dp", "56dp"
+                                    radius: [12]
+
+                                MDBoxLayout:
+                                    orientation: "vertical"
+                                    spacing: "2dp"
+                                    size_hint_x: None
+                                    width: "100dp"
+
+                                    MDLabel:
+                                        id: next_name
+                                        text: "Nombre"
+                                        halign: "left"
+                                        bold: True
+                                        text_color: 0,0,0,1
+
+                                    MDLabel:
+                                        id: next_date
+                                        text: "2025-01-01"
+                                        halign: "left"
+                                        text_color: 0.4,0.4,0.4,1
+
+                                MDBoxLayout:
+                                    orientation: "vertical"
+                                    spacing: "2dp"
+                                    size_hint_x: None
+                                    width: "100dp"
+
+                                    MDLabel:
+                                        id: next_price
+                                        text: "$0"
+                                        halign: "right"
+                                        bold: True
+                                        text_color: 0,0,0,1
+
+                                    MDLabel:
+                                        id: next_plan
+                                        text: "Plan"
+                                        halign: "right"
+                                        text_color: 0.4,0.4,0.4,1
+
+
+
 
 
         Screen:

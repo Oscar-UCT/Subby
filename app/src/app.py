@@ -49,7 +49,6 @@ def load_subscriptions(self):
     container.clear_widgets()
 
     rows = database.load_suscriptions()
-    print(rows)
 
     for id_suscripcion, id_plan, id_recordatorio, nombre, fecha_pago, monto_pago, medio_pago in rows:
         card = MDCard(
@@ -76,14 +75,49 @@ def load_subscriptions(self):
         layout.add_widget(info_col)
 
         # Price column
+        monto_int = int(round(monto_pago or 0))
+        monto_clp = f"${monto_int:,}".replace(",", ".")
+
         price_col = MDBoxLayout(orientation="vertical", spacing=dp(2), size_hint_x=None, width=dp(100))
-        price_col.add_widget(MDLabel(text=f"${monto_pago}", halign="right", bold=True, text_color=(0,0,0,1)))
+        price_col.add_widget(MDLabel(text=monto_clp, halign="right", bold=True, text_color=(0,0,0,1)))
         price_col.add_widget(MDLabel(text=plan[1], halign="right", text_color=(0.4,0.4,0.4,1)))
         layout.add_widget(price_col)
 
         container.add_widget(card)
 
+def load_expenses(self):
+    self.root.ids.gasto_mensual_label.text = str(database.get_monthly_expense())
 
+def load_next_subscription(self):
+    row = database.get_next_subscription()
+
+    img = self.root.ids.next_img
+    name_label = self.root.ids.next_name
+    date_label = self.root.ids.next_date
+    price_label = self.root.ids.next_price
+    plan_label = self.root.ids.next_plan
+
+    if not row:
+        img.source = "product_imgs/Spotify.png"
+        name_label.text = "Sin suscripciones"
+        date_label.text = ""
+        price_label.text = ""
+        plan_label.text = ""
+        return
+
+    id_suscripcion, id_plan, id_recordatorio, nombre, fecha_pago, monto_pago, medio_pago = row
+
+    plan = database.load_plan_by_id(id_plan)
+
+    monto_int = int(round(monto_pago or 0))
+    monto_clp = f"${monto_int:,}".replace(",", ".")
+
+    img.source = f"product_imgs/{nombre}.png"
+    name_label.text = nombre
+    date_label.text = fecha_pago
+    price_label.text = monto_clp
+    plan_label.text = plan[1]
+    
 class App(MDApp):
     dialog = None
     def build(self):
@@ -91,7 +125,8 @@ class App(MDApp):
     
     def on_start(self):
         database.check_db()
-        database.create_plan("Mensual", "30")
+        load_expenses(self)
+        load_next_subscription(self)
         load_subscriptions(self)
 
     def nueva_suscripcion(self):
@@ -163,24 +198,27 @@ class App(MDApp):
         precio = self.precio_dialog.text.strip()
         
         if not nombre or not plan or not fecha_pago or not precio:
-            dialog = MDDialog(
+            save_dialog = MDDialog(
+                MDDialogHeadlineText(text="Rellene todos los campos"),
                 MDDialogButtonContainer(
                     Widget(),
                     MDButton(
-                        MDButtonText(text="Aceptar")),
-                        on_release=lambda *x: self.dialog.dismiss()
+                        MDButtonText(text="Aceptar"),
+                        on_release=lambda *x: save_dialog.dismiss()
+                    ),
                 ),
-                MDDialogHeadlineText(text="Rellene todos los campos"),
-            ).open()
+            )
+            save_dialog.open()
             
             return
         
-        print(f"User entered: {nombre}, {plan}, {fecha_pago}, {precio}")
 
         database.create_subscription(nombre, database.get_plan_id_from_string(plan), fecha_pago, precio, medio_pago="Extra")
 
         self.dialog.dismiss()
         load_subscriptions(self)
+        load_expenses(self)
+        load_next_subscription(self)
 
     def on_switch_tabs(
         self,

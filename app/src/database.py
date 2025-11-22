@@ -1,4 +1,6 @@
 import sqlite3
+from datetime import datetime
+
 def check_db():
     conn = sqlite3.connect("subscriptions.db")
     cursor = conn.cursor()
@@ -42,6 +44,22 @@ def check_db():
             FOREIGN KEY (id_suscripcion) REFERENCES Suscripcion(id_suscripcion)
         )
     """)
+
+    default_plans = [
+        ("Mensual", 30),
+        ("Anual", 365),
+        ("Semestral", 180),
+    ]
+
+    for nombre, dias in default_plans:
+        cursor.execute("SELECT 1 FROM Plan WHERE nombre = ?", (nombre,))
+        exists = cursor.fetchone()
+
+        if not exists:
+            cursor.execute(
+                "INSERT INTO Plan (nombre, dias) VALUES (?, ?)",
+                (nombre, dias)
+            )
 
     conn.commit()
     conn.close()
@@ -133,3 +151,63 @@ def create_plan(name, days):
     cursor.execute("INSERT OR IGNORE INTO Plan (nombre, dias) VALUES (?, ?)", (name, days))
     conn.commit()
     conn.close()
+
+def get_monthly_expense():
+    conn = sqlite3.connect("subscriptions.db")
+    cursor = conn.cursor()
+
+    # Get subscriptions with their plan duration in one query
+    cursor.execute("""
+        SELECT S.monto_pago, P.dias
+        FROM Suscripcion S
+        JOIN Plan P ON S.id_plan = P.id_plan
+    """)
+
+    rows = cursor.fetchall()
+    conn.close()
+
+    total = 0.0
+
+    for monto, dias in rows:
+        if dias <= 0:
+            continue  # safety
+
+        # Convert price into monthly-equivalent
+        # Monthly price = total_price * (30 / duration_in_days)
+        monthly_cost = monto * (30 / dias)
+        total += monthly_cost
+
+    return f"${int(round(total)):,}".replace(",", ".")
+
+
+def get_next_subscription():
+    conn = sqlite3.connect("subscriptions.db")
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT * FROM Suscripcion")
+    rows = cursor.fetchall()
+    conn.close()
+
+    if not rows:
+        return None
+
+    today = datetime.now()
+    closest = None
+    closest_date = None
+
+    for row in rows:
+        fecha_str = row[4]
+
+        try:
+            fecha = datetime.strptime(fecha_str.strip(), "%d/%m/%Y")
+        except:
+            continue
+
+        if fecha < today:
+            continue
+
+        if closest is None or fecha < closest_date:
+            closest = row
+            closest_date = fecha
+
+    return closest
