@@ -1,2 +1,11 @@
 # Subby
-Administrador de suscripciones desarrollado en Kivy
+¡Administra tus suscripciones de forma sencilla con Subby!\
+
+## Funcionalidades
+* Gestión de suscripciones
+* Historial de cobros
+* Analíticas y resumen de gastos
+* Notificaciones y recordatorios
+
+<img width="2358" height="5112" alt="Subscriptions" src="https://github.com/user-attachments/assets/08564b9a-a94e-4215-9778-7c889e9fdbae" />
+<img width="2358" height="5112" alt="Overview" src="https://github.com/user-attachments/assets/d81cc4d1-f19b-4bbc-b84d-25ff0a1050d3" />
