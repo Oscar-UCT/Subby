@@ -1,5 +1,5 @@
 # Subby
-¡Administra tus suscripciones de forma sencilla con Subby!\
+¡Administra tus suscripciones de forma sencilla con Subby!
 
 ## Funcionalidades
 * Gestión de suscripciones
