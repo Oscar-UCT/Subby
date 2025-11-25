@@ -7,5 +7,5 @@
 * Analíticas y resumen de gastos
 * Notificaciones y recordatorios
 
-<img width="2358" height="5112" alt="Subscriptions" src="https://github.com/user-attachments/assets/08564b9a-a94e-4215-9778-7c889e9fdbae" />
-<img width="2358" height="5112" alt="Overview" src="https://github.com/user-attachments/assets/d81cc4d1-f19b-4bbc-b84d-25ff0a1050d3" />
+<img width="393" height="852" alt="Subscriptions" src="https://github.com/user-attachments/assets/08564b9a-a94e-4215-9778-7c889e9fdbae" />
+<img width="393" height="852" alt="Overview" src="https://github.com/user-attachments/assets/d81cc4d1-f19b-4bbc-b84d-25ff0a1050d3" />
